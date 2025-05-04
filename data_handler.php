@@ -3,7 +3,7 @@ header('Content-Type: application/json');
 
 
 
-$recaptchaSecret = '6LdP5S0rAAAAAKfoApcLBEDV5NG4v5IYzfnHsmMb';
+$recaptchaSecret = '6LcT6S0rAAAAAIDTONMeELXH2FowP_JlYyWEHkgF';
 $recaptchaResponse = $_POST['g-recaptcha-response'] ?? '';
 
 $verify = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret={$recaptchaSecret}&response={$recaptchaResponse}");
