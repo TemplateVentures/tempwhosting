@@ -1,10 +1,35 @@
 $(document).ready(function () {
+    // Check if data exists in localStorage and populate it
+    if (localStorage.getItem("websiteData")) {
+        var storedData = JSON.parse(localStorage.getItem("websiteData"));
+        $('#ip').text(storedData.ip);
+        $('#host').text(storedData.host);
+        $('#city').text(storedData.city);
+        $('#subd').text(storedData.region);
+        $('#country').text(storedData.country);
+        $('#whois').text(storedData.whois);
+
+        // Populate name servers
+        if (storedData.nameservers && storedData.nameservers.length > 0) {
+            $('#nsList').empty();
+            storedData.nameservers.forEach(ns => {
+                $('#nsList').append(`<li>${ns}</li>`);
+            });
+        } else {
+            $('#nsList').html('<li>No name servers found.</li>');
+        }
+
+        $('.temp_sec1').css("display", "flex"); // Show content
+    }
+
+    // On button click, fetch data
     $('#checkBtn').on('click', function () {
         var url = $('#url').val().trim();
         if (!url) return alert("Please enter a URL.");
 
         // Show loader, hide content
         $('.loader').show();
+        $('.temp_sec1').hide();
 
         $.ajax({
             url: 'data_handler.php',
@@ -31,7 +56,20 @@ $(document).ready(function () {
                         $('#nsList').html('<li>No name servers found.</li>');
                     }
 
-                    $('.temp_sec1').css("display", "flex"); // Show content after success
+                    // Save data to localStorage
+                    var websiteData = {
+                        ip: data.ip,
+                        host: data.host,
+                        city: data.city,
+                        region: data.region,
+                        country: data.country,
+                        whois: data.whois.slice(0, 1000) + '...',
+                        nameservers: data.nameservers || []
+                    };
+                    localStorage.setItem("websiteData", JSON.stringify(websiteData));
+
+                    // Show content after success
+                    $('.temp_sec1').css("display", "flex");
                 } else {
                     alert('Error: ' + data.message);
                 }
