@@ -1,20 +1,8 @@
 <?php
 header('Content-Type: application/json');
 
-$recaptchaSecret = '6LcT6S0rAAAAAIDTONMeELXH2FowP_JlYyWEHkgF';
-$recaptchaResponse = $_POST['g-recaptcha-response'] ?? '';
-
-$verify = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret={$recaptchaSecret}&response={$recaptchaResponse}");
-$responseData = json_decode($verify);
-
-if (!$responseData->success) {
-    echo json_encode(['success' => false, 'message' => 'Captcha verification failed']);
-    exit;
-}
-
-
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(405);
+    http_response_code(405); // Method Not Allowed
     echo json_encode(['success' => false, 'message' => 'Method not allowed']);
     exit;
 }
@@ -25,16 +13,30 @@ if (!isset($_POST['url'])) {
 }
 
 $inputUrl = trim($_POST['url']);
-$parsedUrl = parse_url($inputUrl, PHP_URL_HOST) ?: $inputUrl;
-$fullUrl = 'http://' . $parsedUrl;
+$parsedUrl = parse_url($inputUrl, PHP_URL_HOST);
+if (!$parsedUrl) {
+    $parsedUrl = preg_replace('#^https?://#', '', $inputUrl); // Strip http/https
+}
+
 $hostIP = gethostbyname($parsedUrl);
 
-// WHOIS
+if (!$hostIP) {
+    echo json_encode(['success' => false, 'message' => 'Invalid domain']);
+    exit;
+}
+
+// WHOIS (optional basic call - may be limited on shared hosting)
 $whois = shell_exec("whois $parsedUrl");
 
-// IP Info
-$ipJson = file_get_contents("https://ipinfo.io/{$hostIP}/json");
-$ipData = json_decode($ipJson, true);
+
+// Get Name Servers
+$nsLookupOutput = shell_exec("nslookup -type=ns $parsedUrl");
+$nameServers = [];
+if ($nsLookupOutput && preg_match_all('/nameserver = ([^\s]+)/', $nsLookupOutput, $matches)) {
+    $nameServers = $matches[1];
+}
+$nameServers = [];
+
 
 // Get Name Servers
 $nsRecords = dns_get_record($parsedUrl, DNS_NS);
@@ -45,6 +47,11 @@ if ($nsRecords) {
         $nameServers[] = $record['target'];
     }
 }
+
+
+// IP Info
+$ipJson = file_get_contents("https://ipinfo.io/{$hostIP}/json");
+$ipData = json_decode($ipJson, true);
 
 echo json_encode([
     'success' => true,
