@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google reCAPTCHA widget -->
+    <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY_HERE"></div>
+</head>
+<body>
+
+
+    <div class="temp_main">
+        <div class="temp_wrapper">
+            <div class="temp_con">
+                <div class="temp_info">
+                    <h1>Check Website Hosting</h1>
+                </div>
+                <div class="temp_form">
+                    <h2>Check website ownership and hosting—fast.</h2>
+                    <div class="temp_input_box">
+                        <input type="text" id="url" placeholder="Enter website URL" required>
+                        <button id="checkBtn">Check</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="result" id="resultBox">
+
+                <div class="loader"></div>
+                
+                <div class="temp_sec1">
+                    <div class="temp_sec_con">
+                        <h3>Hosting Provider:</h3>
+                        <span id="host"></span>
+                    </div>
+                    <div class="temp_sec_con">
+                        <h3>IP Address:</h3>
+                        <span id="ip"></span>
+                    </div>
+                </div>
+
+                <div class="temp_sec1">
+                    <div class="temp_sec_con">
+                        <h3>Nameservers:</h3>
+                        <span id="nsList"></span>
+                    </div> 
+                    <div class="temp_sec_con">
+                        <h3>Who Is</h3>
+                        <span id="whois"></span>
+                    </div>
+                </div>
+
+                <div class="temp_sec1">
+                    <div class="temp_sec_con">
+                        <h3>Registered Country:</h3>
+                        <span id=""></span>
+                    </div>
+                    <div class="temp_sec_con">
+                            <h3>Country:</h3>
+                            <span id="country"></span>
+                    </div>
+                </div>
+
+                <div class="temp_sec1">
+                    <div class="temp_sec_con">
+                        <h3>City:</h3>
+                        <span id="city"></span>
+                    </div>
+                    <div class="temp_sec_con">
+                            <h3>Subdivisions:</h3>
+                            <span id="subd"></span>
+                    </div>
+                </div>
+
+                <div class="privacy_con"><small>This site is protected by reCAPTCHA and the <a href="privacy.html">Privacy Policy</a> and <a href="terms.html">Terms of Service</a> apply.</small></div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="script.js"></script>
+</body>
+</html>
