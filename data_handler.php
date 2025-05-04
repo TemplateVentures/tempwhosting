@@ -1,8 +1,6 @@
 <?php
 header('Content-Type: application/json');
 
-
-
 $recaptchaSecret = '6LcT6S0rAAAAAIDTONMeELXH2FowP_JlYyWEHkgF';
 $recaptchaResponse = $_POST['g-recaptcha-response'] ?? '';
 
