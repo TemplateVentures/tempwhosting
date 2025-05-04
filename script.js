@@ -49,29 +49,29 @@ $(document).ready(function () {
 
 
 
-$(document).ready(function () {
-    // Check if data exists in localStorage and populate it
-    if (localStorage.getItem("websiteData")) {
-        var storedData = JSON.parse(localStorage.getItem("websiteData"));
-        $('#ip').text(storedData.ip);
-        $('#host').text(storedData.host);
-        $('#city').text(storedData.city);
-        $('#subd').text(storedData.region);
-        $('#country').text(storedData.country);
-        $('#whois').text(storedData.whois);
+// $(document).ready(function () {
+//     // Check if data exists in localStorage and populate it
+//     if (localStorage.getItem("websiteData")) {
+//         var storedData = JSON.parse(localStorage.getItem("websiteData"));
+//         $('#ip').text(storedData.ip);
+//         $('#host').text(storedData.host);
+//         $('#city').text(storedData.city);
+//         $('#subd').text(storedData.region);
+//         $('#country').text(storedData.country);
+//         $('#whois').text(storedData.whois);
 
-        // Populate name servers
-        if (storedData.nameservers && storedData.nameservers.length > 0) {
-            $('#nsList').empty();
-            storedData.nameservers.forEach(ns => {
-                $('#nsList').append(`<li>${ns}</li>`);
-            });
-        } else {
-            $('#nsList').html('<li>No name servers found.</li>');
-        }
+//         // Populate name servers
+//         if (storedData.nameservers && storedData.nameservers.length > 0) {
+//             $('#nsList').empty();
+//             storedData.nameservers.forEach(ns => {
+//                 $('#nsList').append(`<li>${ns}</li>`);
+//             });
+//         } else {
+//             $('#nsList').html('<li>No name servers found.</li>');
+//         }
 
-        $('.temp_sec1').css("display", "flex"); // Show content
-    }
+//         $('.temp_sec1').css("display", "flex"); // Show content
+//     }
 
 // On button click, fetch data
 //     $('#checkBtn').on('click', function () {
